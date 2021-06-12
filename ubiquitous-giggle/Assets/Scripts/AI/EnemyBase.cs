@@ -46,6 +46,16 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     public float DropPercentChance;
 
+    /// <summary>
+    /// Amount of damage to deal to the target when performing melee atk
+    /// </summary>
+    public float MeleeAtkDamage;
+
+    /// <summary>
+    /// List of arm listener classes that are placed on enemy's swing joints
+    /// </summary>
+    public List<ArmColliderListener> ArmListeners;
+
     // Debug: set the target on start
     [SerializeField]
     private GameObject _debugTarget;
@@ -53,6 +63,8 @@ public class EnemyBase : MonoBehaviour
     // Animator of enemy model
     [SerializeField]
     private Animator _animator;
+
+    [SerializeField] private FloatSO playerhealth;
 
     // Health of the enemy
     private float _health;
@@ -80,6 +92,7 @@ public class EnemyBase : MonoBehaviour
         ChaseSpeed = 4;
         AttackDist = 2;
         DropPercentChance = 17;
+        MeleeAtkDamage = 5.0f;
     }
 
     #region MonoBehaviours
@@ -107,6 +120,14 @@ public class EnemyBase : MonoBehaviour
         if (_debugTarget)
         {
             SetTarget(_debugTarget);
+        }
+
+        if (ArmListeners.Count > 0)
+        {
+            foreach(ArmColliderListener arm in ArmListeners)
+            {
+                arm.OnTriggerOverlap += this.OnArmTriggerOverlapped;
+            }
         }
     }
 
@@ -352,5 +373,17 @@ public class EnemyBase : MonoBehaviour
     {
         // Once knockback finished, reset to chasing to continue normal FSM flow
         SetActionState(ActionStates.Chasing);
+    }
+
+    private void OnArmTriggerOverlapped(Collider otherCollider)
+    {
+        if (_target)
+        {
+            PlayerStatsManager playerStats = _target.GetComponent<PlayerStatsManager>();
+            if (playerStats != null)
+            {
+                playerStats.RecieveDamage(MeleeAtkDamage);
+            }
+        }
     }
 }

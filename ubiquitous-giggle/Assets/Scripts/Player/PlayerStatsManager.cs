@@ -26,4 +26,9 @@ public class PlayerStatsManager : MonoBehaviour
         deathUIGameObject.SetActive(false);
         LoadScene(GetActiveScene().buildIndex);
     }
+
+    public void RecieveDamage(float dmg)
+    {
+        playerhealth.number -= dmg;
+    }
 }
