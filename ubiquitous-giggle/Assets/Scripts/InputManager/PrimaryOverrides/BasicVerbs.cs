@@ -47,8 +47,8 @@ public class BasicVerbs : InputSubscriber
         //Debug.Log($"mousePos = '{axis}' to worldPos = '{worldPosition}'");
 
         // Do LookAt world position and ignore X/Z axis'
-        this.transform.LookAt(worldPosition);
-        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+        //this.transform.LookAt(worldPosition);
+        //this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
     }
     private void Move()
     {

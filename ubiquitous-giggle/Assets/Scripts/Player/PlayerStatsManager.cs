@@ -20,7 +20,9 @@ public class PlayerStatsManager : MonoBehaviour
     private IEnumerator PlayerDied()
     {
         deathUIGameObject.SetActive(true);
+        
         yield return new WaitForSeconds(1f);
+
         deathUIGameObject.SetActive(false);
         LoadScene(GetActiveScene().buildIndex);
     }
