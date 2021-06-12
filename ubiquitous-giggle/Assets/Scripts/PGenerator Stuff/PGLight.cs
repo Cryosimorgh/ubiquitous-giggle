@@ -9,7 +9,6 @@ public class PGLight : MonoBehaviour
     [SerializeField] private Material mat;
     [Range(0,15)]
     [SerializeField] private float lightIntensity;
-    [SerializeField] private float matintensity;
     [SerializeField] private BoolSO increase;
     [SerializeField] private BoolSO decrease;
     private Color color;
