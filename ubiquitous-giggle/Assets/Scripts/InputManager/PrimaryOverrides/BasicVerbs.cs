@@ -25,21 +25,37 @@ public class BasicVerbs : InputSubscriber
     }
     protected override void DoAction(bool performed)
     {
+        int carryLayerIndex = anime.GetLayerIndex("CarryLayer");
+
         if (isTree.boolean)
         {
             //do animation
             //add to carry pile
             //slow down the player
+
+            // Set carry layer to 1, enabling carry anim
+            if (anime)
+            {
+                anime.SetLayerWeight(carryLayerIndex, 1.0f);
+            }
+
             Debug.Log("im Groot!");
         }
         else
         {
+
             Log("Attack");
             return;
         }
         if (performed == false)
         {
             //drop the loot
+
+            // Set weight of Carry layer to 0, removing carry anim
+            if (anime.GetLayerWeight(carryLayerIndex) > 0)
+            {
+                anime.SetLayerWeight(carryLayerIndex, 0.0f);
+            }
         }
     }
     protected override void MousePositionAction(Vector2 axis)
@@ -65,5 +81,4 @@ public class BasicVerbs : InputSubscriber
     {
         Move();
     }
- 
 }
