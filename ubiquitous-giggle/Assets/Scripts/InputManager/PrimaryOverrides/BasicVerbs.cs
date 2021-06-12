@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using static UnityEngine.Debug;
 [RequireComponent(typeof(Rigidbody))]
@@ -8,6 +7,7 @@ public class BasicVerbs : InputSubscriber
 {
     [SerializeField] private FloatSO speedMod;
     [SerializeField] private Camera cam;
+    [SerializeField] private Animator anime;
     private Rigidbody rb;
     private BoxCollider triggerCap;
     private Vector3 directions;
@@ -53,6 +53,10 @@ public class BasicVerbs : InputSubscriber
     private void Move()
     {
         rb.velocity = (directions * speedMod.number);
+        if (directions.x != 0 || directions.z != 0)
+        {
+            anime.Play("standing_run_forward");
+        }
     }
     void FixedUpdate()
     {
