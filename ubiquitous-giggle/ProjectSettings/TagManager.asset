@@ -7,6 +7,7 @@ TagManager:
   - Interactable
   - Environment
   - Fuel
+  - Enemy
   layers:
   - Default
   - TransparentFX

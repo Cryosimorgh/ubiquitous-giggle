@@ -94,6 +94,7 @@ MonoBehaviour:
   speedMod: {fileID: 11400000, guid: a34a3559e28c1654fab37ca9725ef28e, type: 2}
   cam: {fileID: 0}
   anime: {fileID: 6247825198339274676}
+  isTree: {fileID: 0}
 --- !u!114 &566941470591350395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,8 +107,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f6deb311ca1a440b6fdd3c1eecf6ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MeleeAtkDamage: 5
   playerhealth: {fileID: 11400000, guid: 7db63afebbd842d4e849f658b06661d3, type: 2}
   deathUIGameObject: {fileID: 0}
+  ArmListeners: []
+--- !u!136 &4274152637969537107
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481922110189578020}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: 0.13, y: 0, z: 0}
+--- !u!114 &6638146783447926636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481922110189578020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b011b586a202ee541bc3d801afba4bf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TagCompare: Enemy
 --- !u!1001 &566941471186324005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,5 +211,10 @@ Transform:
 --- !u!95 &6247825198339274676 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: eb1429e45ab7ca0479bf4dd119233c96, type: 3}
+  m_PrefabInstance: {fileID: 566941471186324005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2481922110189578020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2715566404302941441, guid: eb1429e45ab7ca0479bf4dd119233c96, type: 3}
   m_PrefabInstance: {fileID: 566941471186324005}
   m_PrefabAsset: {fileID: 0}

@@ -45,6 +45,12 @@ public class BasicVerbs : InputSubscriber
         {
 
             Log("Attack");
+
+            if (anime)
+            {
+                anime.SetTrigger("onAttack");
+            }
+
             return;
         }
         if (performed == false)

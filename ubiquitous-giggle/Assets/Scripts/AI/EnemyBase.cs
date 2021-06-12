@@ -64,8 +64,6 @@ public class EnemyBase : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
-    [SerializeField] private FloatSO playerhealth;
-
     // Health of the enemy
     private float _health;
     // Target game object (actor) to perform at
@@ -220,6 +218,7 @@ public class EnemyBase : MonoBehaviour
     private void SetActionState(ActionStates newState)
     {
         _currentActionState = newState;
+        _fsmState = FSMState.Start;
     }
 
     private void IdleStart()
@@ -343,7 +342,7 @@ public class EnemyBase : MonoBehaviour
         return _target;
     }
 
-    private void RecieveDamage(float dmgAmount)
+    public void RecieveDamage(float dmgAmount)
     {
         // Check if enemy dies from this amount
         float currentHp = GetHealth();

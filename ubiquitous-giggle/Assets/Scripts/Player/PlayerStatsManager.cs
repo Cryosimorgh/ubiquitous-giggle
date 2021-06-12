@@ -6,8 +6,23 @@ using static UnityEngine.SceneManagement.SceneManager;
 
 public class PlayerStatsManager : MonoBehaviour
 {
+    public float MeleeAtkDamage = 5.0f;
+    
     [SerializeField] private FloatSO playerhealth;
     [SerializeField] private GameObject deathUIGameObject;
+
+    public List<ArmColliderListener> ArmListeners;
+
+    private void Start()
+    {
+        if (ArmListeners.Count > 0)
+        {
+            foreach(ArmColliderListener arm in ArmListeners)
+            {
+                arm.OnTriggerOverlap += this.OnArmAttackOverlap;
+            }
+        }
+    }
 
     void Update()
     {
@@ -32,5 +47,14 @@ public class PlayerStatsManager : MonoBehaviour
     public void RecieveDamage(float dmg)
     {
         playerhealth.number -= dmg;
+    }
+
+    private void OnArmAttackOverlap(Collider other)
+    {
+        EnemyBase enemy = other.GetComponent<EnemyBase>();
+        if (enemy)
+        {
+            enemy.RecieveDamage(MeleeAtkDamage);
+        }
     }
 }
