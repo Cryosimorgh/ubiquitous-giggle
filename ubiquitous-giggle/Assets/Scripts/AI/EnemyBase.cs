@@ -12,6 +12,7 @@ enum ActionStates
     Chasing = 1,
     Attack = 2,
     Death = 3,
+    KnockBack = 4,
 }
 
 /// <summary>
@@ -40,7 +41,12 @@ public class EnemyBase : MonoBehaviour
     /// Distance enemy need to be <= to perform an attack
     /// </summary>
     public float AttackDist;
+    /// <summary>
+    /// Percent between 0 and 100 to drop an item on death
+    /// </summary>
+    public float DropPercentChance;
 
+    // Debug: set the target on start
     [SerializeField]
     private GameObject _debugTarget;
 
@@ -59,6 +65,7 @@ public class EnemyBase : MonoBehaviour
     private FSMState _fsmState;
     // Rigidbody of the enemy
     private NavMeshAgent _nmAgent;
+    // Current path of the nav mesh agent
     private NavMeshPath _nmPath;
 
     public EnemyBase()
@@ -70,7 +77,9 @@ public class EnemyBase : MonoBehaviour
         _target = null;
 
         ChaseDetectionDist = 50;
+        ChaseSpeed = 4;
         AttackDist = 2;
+        DropPercentChance = 17;
     }
 
     #region MonoBehaviours
@@ -121,6 +130,12 @@ public class EnemyBase : MonoBehaviour
             // Get dmg amount for axe swing
             float dmgAmount = 0.0f;
             RecieveDamage(dmgAmount);
+
+            float rndChance = Random.Range(0, 100);
+            if (rndChance < 50) // 50% chance to be knocked back
+            {
+                Knockback();
+            }
         }
     }
 
@@ -164,6 +179,11 @@ public class EnemyBase : MonoBehaviour
                     } else if (_fsmState == FSMState.Update) {
                         DeathUpdate();
                     }
+                    break;
+                }
+            case ActionStates.KnockBack:
+                {
+                    // Await anim callback to OnKnockbackFinish()
                     break;
                 }
             default:
@@ -255,6 +275,17 @@ public class EnemyBase : MonoBehaviour
     {
         Debug.Log($"Enemy '{this.name}' died!");
         _fsmState = FSMState.Update;
+
+        float rnd = Random.Range(0, 100);
+        if (rnd <= DropPercentChance)
+        {
+            // Drop fuel/item on death
+        }
+
+        if (_animator)
+        {
+            _animator.SetTrigger("onDeath");
+        }
     }
 
     private void DeathUpdate() { }
@@ -306,5 +337,20 @@ public class EnemyBase : MonoBehaviour
 
             Debug.Log($"Enemy '{this.name}' recieved '{dmgAmount}' dmg (New health: '{newHp}')");
         }
+    }
+
+    private void Knockback()
+    {
+        // Trigger animator trigger
+        _animator.SetTrigger("onKnockback");
+        // Set state to knockback
+        SetActionState(ActionStates.KnockBack);
+    }
+
+    // Callback from Knockback animation - Done by animation event on animation
+    public void OnKnockbackFinish()
+    {
+        // Once knockback finished, reset to chasing to continue normal FSM flow
+        SetActionState(ActionStates.Chasing);
     }
 }
