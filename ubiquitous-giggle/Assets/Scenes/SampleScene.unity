@@ -258,10 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightsource: {fileID: 878790122}
   mat: {fileID: 2100000, guid: bb122a6d97dc3954bbb14ff490da7ebd, type: 2}
-  lightIntensity: 0
-  matintensity: 1
-  increase: {fileID: 11400000, guid: dd11893533d4c4b4ba7ea905f76b633d, type: 2}
-  decrease: {fileID: 11400000, guid: 9952476b3f350a1468e2186fd0f11006, type: 2}
+  intensity: 0
 --- !u!65 &278159761
 BoxCollider:
   m_ObjectHideFlags: 0
