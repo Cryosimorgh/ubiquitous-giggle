@@ -2,21 +2,18 @@ using UnityEngine;
 using static UnityEngine.Debug;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
-[RequireComponent(typeof(BoxCollider))]
 public class BasicVerbs : InputSubscriber
 {
     [SerializeField] private FloatSO speedMod;
     [SerializeField] private Camera cam;
     [SerializeField] private Animator anime;
+    [SerializeField] private BoolSO isTree;
     private Rigidbody rb;
-    private BoxCollider triggerCap;
     private Vector3 directions;
-    private bool canPickUp;
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody>();
-        triggerCap = GetComponent<BoxCollider>();
     }
     protected override void ADAction(float directionx)
     {
@@ -28,10 +25,12 @@ public class BasicVerbs : InputSubscriber
     }
     protected override void DoAction(bool performed)
     {
-        if (canPickUp)
+        if (isTree.boolean)
         {
-            Log("DoAction/Pick Up");
-            return;
+            //do animation
+            //add to carry pile
+            //slow down the player
+            Debug.Log("im Groot!");
         }
         else
         {
@@ -62,24 +61,5 @@ public class BasicVerbs : InputSubscriber
     {
         Move();
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Interactable"))
-        {
-            canPickUp = true;
-            //pickup
-            Log("Pick Up");
-            return;
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Interactable"))
-        {
-            canPickUp = false;
-            //pickup
-            Log("Pick Down");
-            return;
-        }
-    }
+ 
 }
