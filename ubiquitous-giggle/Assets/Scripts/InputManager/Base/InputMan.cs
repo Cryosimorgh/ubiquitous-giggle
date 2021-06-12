@@ -66,7 +66,7 @@ public class @InputMan : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0b53551b-71b7-4819-a56a-b8d44787afdc"",
-                    ""path"": ""<Mouse>/delta"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

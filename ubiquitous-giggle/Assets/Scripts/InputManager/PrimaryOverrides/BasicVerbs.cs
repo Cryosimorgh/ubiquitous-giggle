@@ -41,6 +41,14 @@ public class BasicVerbs : InputSubscriber
     }
     protected override void MousePositionAction(Vector2 axis)
     {
+        // Covert mouse position to vector3 and set depth to get correct world location
+        Vector3 mousePosVector3 = new Vector3(axis.x, axis.y, Camera.main.nearClipPlane);
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosVector3);
+        //Debug.Log($"mousePos = '{axis}' to worldPos = '{worldPosition}'");
+
+        // Do LookAt world position and ignore X/Z axis'
+        this.transform.LookAt(worldPosition);
+        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
     }
     private void Move()
     {
