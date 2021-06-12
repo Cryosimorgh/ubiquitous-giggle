@@ -70,7 +70,7 @@ public class EnemyBase : MonoBehaviour
         _target = null;
 
         ChaseDetectionDist = 50;
-        AttackDist = 5;
+        AttackDist = 2;
     }
 
     #region MonoBehaviours
@@ -81,7 +81,7 @@ public class EnemyBase : MonoBehaviour
         {
             // Add NavMeshAgent and customize
             _nmAgent = this.gameObject.AddComponent<NavMeshAgent>();
-            _nmAgent.stoppingDistance = 4.0f;
+            _nmAgent.stoppingDistance = AttackDist;
             _nmAgent.radius = 0.50f;
             _nmAgent.speed = ChaseSpeed;
         }
@@ -104,6 +104,13 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Update()
     {
         FSMUpdate();
+        
+        // Update animator properties
+        if (_animator)
+        {
+            _animator.SetFloat("movementVelocity", _nmAgent.velocity.sqrMagnitude);
+            _animator.SetBool("bIsAttacking", _currentActionState == ActionStates.Attack);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -207,8 +214,8 @@ public class EnemyBase : MonoBehaviour
                 SetActionState(ActionStates.Attack);
             }
 
-            // Move towards target actor
-            if (_nmAgent && !_nmAgent.hasPath)
+            // Move towards target actor if no path or existing path is complete
+            if (_nmAgent && (!_nmAgent.hasPath || _nmAgent.hasPath && _nmAgent.pathStatus == NavMeshPathStatus.PathComplete))
             {
                 bool success = NavMesh.CalculatePath(this.transform.position, _target.transform.position, NavMesh.AllAreas, _nmPath);
                 if (!success)
