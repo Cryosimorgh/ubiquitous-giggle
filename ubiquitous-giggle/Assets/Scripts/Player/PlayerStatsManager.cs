@@ -15,6 +15,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Start()
     {
+        playerhealth.number = 100f;
         if (ArmListeners.Count > 0)
         {
             foreach(ArmColliderListener arm in ArmListeners)

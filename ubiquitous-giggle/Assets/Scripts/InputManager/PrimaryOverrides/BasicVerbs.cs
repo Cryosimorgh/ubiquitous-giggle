@@ -23,37 +23,31 @@ public class BasicVerbs : InputSubscriber
     {
         directions.z = directionz;
     }
-    protected override void DoAction(bool performed)
+    protected override void InteractAction(bool performed)
     {
         int carryLayerIndex = anime.GetLayerIndex("CarryLayer");
-
-        if (isTree.boolean)
+        if (performed)
         {
-            //do animation
-            //add to carry pile
-            //slow down the player
-
+            if (isTree.boolean)
+        {
             // Set carry layer to 1, enabling carry anim
             if (anime)
             {
                 anime.SetLayerWeight(carryLayerIndex, 1.0f);
             }
-
             Debug.Log("im Groot!");
         }
-        else
+            else
         {
-
             Log("Attack");
-
             if (anime)
             {
                 anime.SetTrigger("onAttack");
             }
-
             return;
         }
-        if (performed == false)
+        }
+        else
         {
             //drop the loot
 

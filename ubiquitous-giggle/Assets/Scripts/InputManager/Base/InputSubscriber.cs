@@ -13,13 +13,13 @@ public class InputSubscriber : MonoBehaviour
         inputManagerScript.Movement.AD.performed += ctx => ADAction(ctx.ReadValue<float>());
         inputManagerScript.Movement.WS.performed += ctx => WSAction(ctx.ReadValue<float>());
         inputManagerScript.Movement.MousePosAction.performed += ctx => MousePositionAction(ctx.ReadValue<Vector2>());
-        inputManagerScript.Movement.DoAction.performed += ctx => DoAction(ctx.ReadValueAsButton());
+        inputManagerScript.Movement.DoAction.performed += ctx => InteractAction(ctx.ReadValueAsButton());
     }
 
     protected virtual void MousePositionAction(Vector2 axis) {}
     protected virtual void ADAction(float direction) {}
     protected virtual void WSAction(float direction) {}
-    protected virtual void DoAction(bool performed) {}
+    protected virtual void InteractAction(bool performed) {}
     void OnEnable()
     {
         SingleInstanceTheScript();

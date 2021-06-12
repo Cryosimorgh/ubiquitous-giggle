@@ -40,7 +40,7 @@ public class @InputMan : IInputActionCollection, IDisposable
                     ""id"": ""055ecd28-2dd4-4bbe-89d2-0b893c642207"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""MousePosAction"",
@@ -56,6 +56,28 @@ public class @InputMan : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""40ddf75e-3941-4a27-af10-cc484769be63"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DoAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""438a0f18-3a07-4d93-95ce-cee6767c1d0a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DoAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""470dcc45-9511-4557-9be4-0b7495cadd0c"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

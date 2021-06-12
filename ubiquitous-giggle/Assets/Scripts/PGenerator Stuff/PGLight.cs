@@ -6,36 +6,56 @@ using UnityEngine;
 public class PGLight : MonoBehaviour
 {
     [SerializeField] private Light lightsource;
+    [SerializeField] private FloatSO playerHealth;
     [SerializeField] private Material mat;
-    [Range(0,15)]
-    [SerializeField] private float lightIntensity;
-    [SerializeField] private BoolSO increase;
-    [SerializeField] private BoolSO decrease;
-    private Color color;
+    [SerializeField] private BoolSO isTethered;
+    private float lightIntensity;
+    private bool increase;
+    private bool decrease;
     void Start()
     {
-        color = mat.color;
-        InvokeRepeating(nameof(MatChangeColor), 0, 1);
+        lightIntensity = 12;
+        mat.color = Color.red;
+        InvokeRepeating(nameof(LightDecline), 0, 1f);
     }
     private void MatChangeColor()
     {
-        if (increase.boolean)
+        if (mat.color.r == 0)
+        {
+            playerHealth.number = 0;
+        }
+        if (increase)
         {
             mat.color *= 2;
-            increase.boolean = false;
+            lightIntensity += 1;
+            increase = false;
             return;
         }
-        if (decrease.boolean)
+        if (decrease)
         {
-            decrease.boolean = false;
+            lightIntensity -= 1;
+            decrease = false;
             mat.color /= 2;
             return;
         }
-
         return;
+    }
+    private void LightDecline()
+    {
+        decrease = true;
+        Debug.Log(mat.color);
     }
     void Update()
     {
+        MatChangeColor();
         lightsource.intensity = lightIntensity;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Fuel"))
+        {
+            Destroy(other.gameObject);
+            increase = true;
+        }
     }
 }
