@@ -7,11 +7,10 @@ using static UnityEngine.Debug;
 public class BasicVerbs : InputSubscriber
 {
     [SerializeField] private FloatSO speedMod;
+    [SerializeField] private Camera cam;
     private Rigidbody rb;
     private BoxCollider triggerCap;
     private Vector3 directions;
-    private Quaternion quat;
-    private float angle;
     private bool canPickUp;
     protected override void Start()
     {
@@ -22,12 +21,10 @@ public class BasicVerbs : InputSubscriber
     protected override void ADAction(float directionx)
     {
         directions.x = directionx;
-        Log(directionx);
     }
     protected override void WSAction(float directionz)
     {
         directions.z = directionz;
-        Log(directionz);
     }
     protected override void DoAction(bool performed)
     {
@@ -44,8 +41,6 @@ public class BasicVerbs : InputSubscriber
     }
     protected override void MousePositionAction(Vector2 axis)
     {
-        quat.y = Mathf.Atan2(axis.y, axis.x);
-        Log(quat);
     }
     private void Move()
     {
@@ -54,12 +49,6 @@ public class BasicVerbs : InputSubscriber
     void FixedUpdate()
     {
         Move();
-        LookAtMouse();
-    }
-
-    private void LookAtMouse()
-    {
-        //Hot_Garbage
     }
     void OnTriggerEnter(Collider other)
     {

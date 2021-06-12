@@ -44,7 +44,7 @@ public class @InputMan : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""MousePosAction"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""2041b297-9cbe-417c-ab58-41392b1da0c7"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
