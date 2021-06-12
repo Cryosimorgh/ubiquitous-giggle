@@ -37,6 +37,10 @@ public class BasicVerbs : InputSubscriber
             Log("Attack");
             return;
         }
+        if (performed == false)
+        {
+            //drop the loot
+        }
     }
     protected override void MousePositionAction(Vector2 axis)
     {
