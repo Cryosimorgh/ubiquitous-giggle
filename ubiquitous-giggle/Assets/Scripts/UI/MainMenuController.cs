@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +10,17 @@ public class MainMenuController : MonoBehaviour
     [SerializeField]
     private Button _quitBtn;
 
+    [SerializeField]
+    private Button _options;
+
+    [SerializeField]
+    private Button _return;
+
+    [SerializeField]
+    private GameObject optionsMenu;
+
+    [SerializeField]
+    private GameObject mainMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,17 +33,27 @@ public class MainMenuController : MonoBehaviour
         {
             _quitBtn.onClick.AddListener(() => this.OnQuitGame());
         }
+
+        if (_options)
+        {
+            _options.onClick.AddListener(() => this.OptionsMenuActivationHandler());
+        }
+
+        if (_return)
+        {
+            _return.onClick.AddListener(() => this.OptionsMenuActivationHandler());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OptionsMenuActivationHandler()
     {
-        
+        optionsMenu.SetActive(!optionsMenu.activeInHierarchy);
+        mainMenu.SetActive(!optionsMenu.activeInHierarchy);
     }
 
     private void OnPlayGame()
     {
-        LoadScene("level-0");
+        LoadScene(1);
     }
 
     private void OnQuitGame()
@@ -42,8 +61,8 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    private void LoadScene(string sceneName)
+    private void LoadScene(int index)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(index);
     }
 }
