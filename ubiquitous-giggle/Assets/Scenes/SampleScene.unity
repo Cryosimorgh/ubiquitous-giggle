@@ -284,11 +284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455015627}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-<<<<<<< Updated upstream
-  m_LocalPosition: {x: 0, y: 10.179002, z: -2.3799994}
-=======
   m_LocalPosition: {x: 0, y: 10.000002, z: -2.3799994}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1929526868}
@@ -408,11 +404,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-<<<<<<< Updated upstream
-  m_LocalPosition: {x: 0, y: 10.179002, z: -2.3799994}
-=======
   m_LocalPosition: {x: 0, y: 10.000002, z: -2.3799994}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -483,7 +475,6 @@ Transform:
 =======
   m_LocalRotation: {x: 0, y: -0.3519233, z: 0, w: 0.9360289}
   m_LocalPosition: {x: 0, y: 0, z: -2.38}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 68438707}
@@ -503,12 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMod: {fileID: 11400000, guid: a34a3559e28c1654fab37ca9725ef28e, type: 2}
-<<<<<<< Updated upstream
-  cam: {fileID: 519420031}
-  anime: {fileID: 760320456}
-=======
   cam: {fileID: 0}
->>>>>>> Stashed changes
 --- !u!65 &560150249
 BoxCollider:
   m_ObjectHideFlags: 0
