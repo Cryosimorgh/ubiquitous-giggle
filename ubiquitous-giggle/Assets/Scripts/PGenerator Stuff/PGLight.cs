@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PGLight : Singleton<PGLight>
+public class PGLight : MonoBehaviour
 {
     /// <summary>
     /// Radius of the safety circle around the generator
@@ -23,35 +23,51 @@ public class PGLight : Singleton<PGLight>
     void Start()
     {
         lightIntensity = 12;
-        mat.color = Color.red;
+        if (mat)
+        {
+            mat.color = Color.red;
+        }
+        else
+        {
+            Debug.LogError("No Material set for generator light");
+        }
+        if (!lightsource)
+            Debug.LogError("No Light Source set in Generator");
+
         InvokeRepeating(nameof(LightDecline), 0, 5f);
 
         // Update image size to set radius
         SetRadius(SafetyRadius);
     }
+
     private void MatChangeColor()
     {
         if (lightIntensity == 0)
         {
             playerHealth.number = 0;
         }
-        if (increase)
+
+        if (mat)
         {
-            mat.color *= 6;
-            lightIntensity += 3;
-            increase = false;
-            isTree.boolean = false;
-            return;
+            if (increase)
+            {
+                mat.color *= 6;
+                lightIntensity += 3;
+                increase = false;
+                isTree.boolean = false;
+                return;
+            }
+
+            if (decrease)
+            {
+                lightIntensity -= 1;
+                decrease = false;
+                mat.color /= 2;
+                return;
+            }
         }
-        if (decrease)
-        {
-            lightIntensity -= 1;
-            decrease = false;
-            mat.color /= 2;
-            return;
-        }
-        return;
     }
+
     private void LightDecline()
     {
         decrease = true;
@@ -59,7 +75,11 @@ public class PGLight : Singleton<PGLight>
     void Update()
     {
         MatChangeColor();
-        lightsource.intensity = lightIntensity;
+
+        if (lightsource)
+        {
+            lightsource.intensity = lightIntensity;
+        }
     }
     void OnTriggerEnter(Collider other)
     {

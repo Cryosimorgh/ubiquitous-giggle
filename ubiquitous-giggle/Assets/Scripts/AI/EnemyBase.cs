@@ -56,6 +56,9 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     public List<ArmColliderListener> ArmListeners;
 
+    public delegate void OnDeath(EnemyBase enemy);
+    public event OnDeath OnEnemyDeath;
+
     // Debug: set the target on start
     [SerializeField]
     private GameObject _debugTarget;
@@ -64,6 +67,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+    // Prefab to drop below enemy as fuel
     [SerializeField]
     private GameObject _fuelPrefab;
 
@@ -83,6 +87,9 @@ public class EnemyBase : MonoBehaviour
 
     // Scene reference to main power generator player owns
     private PGLight _powerGenerator;
+
+    // Is the enemy currently attacking the target?
+    private bool bIsAttacking = false;
 
     public EnemyBase()
     {
@@ -134,9 +141,20 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        _powerGenerator = PGLight.Instance;
-        if (!_powerGenerator)
-            Debug.LogError("Unable to find PowerGenerator in level!");
+        // Get reference to Player Generator in scene
+        GameObject generator = GameObject.Find("Generator");
+        if (generator != null)
+        {
+            _powerGenerator = generator.GetComponent<PGLight>();
+            if (!_powerGenerator)
+                Debug.LogError("Unable to find PowerGenerator in level!");
+        }
+
+        AttackFinishMessenger atkMessenger = this.transform.GetChild(0).GetComponent<AttackFinishMessenger>();
+        if (atkMessenger != null)
+        {
+            atkMessenger.OnAttackFinished += this.OnAttackFinished;
+        }
     }
 
     protected virtual void Update()
@@ -261,12 +279,14 @@ public class EnemyBase : MonoBehaviour
             if (IsInRange(_target, AttackDist))
             {
                 SetActionState(ActionStates.Attack);
+                return;
             }
 
             // If enemy goes within radius of safety generator, stop chasing
-            if (IsInRange(_powerGenerator.gameObject, _powerGenerator.GetRadiusAsInGameUnits()))
+            if (_powerGenerator && IsInRange(_powerGenerator.gameObject, _powerGenerator.GetRadiusAsInGameUnits()))
             {
                 SetActionState(ActionStates.Idle);
+                return;
             }
 
             // Move towards target actor if no path or existing path is complete
@@ -286,21 +306,22 @@ public class EnemyBase : MonoBehaviour
     private void AttackStart()
     {
         _fsmState = FSMState.Update;
+        bIsAttacking = true;
     }
 
     private void AttackUpdate()
     {
-        if (_target)
+        if (_target && !bIsAttacking)
         {
-            if (false) //!isAttacking
-            {
-
-            }
-
             // Validate distance between enemy and player to check still in range
             if (IsInRange(_target, AttackDist))
             {
                 SetActionState(ActionStates.Chasing);
+            }
+            else
+            {
+                // Restart isAttacking to enabled
+                bIsAttacking = true;
             }
         }
     }
@@ -321,6 +342,12 @@ public class EnemyBase : MonoBehaviour
         if (_animator)
         {
             _animator.SetTrigger("onDeath");
+        }
+
+        // trigger death event if any listeners
+        if (OnEnemyDeath != null)
+        {
+            OnEnemyDeath.Invoke(this);
         }
     }
 
@@ -415,5 +442,11 @@ public class EnemyBase : MonoBehaviour
 
         float dist = Vector3.Distance(this.gameObject.transform.position, go.transform.position);
         return dist <= distance;
+    }
+
+    private void OnAttackFinished()
+    {
+        // Once atk finished callback from messenger, set isAttacking to false
+        bIsAttacking = false;
     }
 }

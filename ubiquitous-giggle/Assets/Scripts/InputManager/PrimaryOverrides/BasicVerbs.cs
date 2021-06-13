@@ -80,6 +80,12 @@ public class BasicVerbs : InputSubscriber
     }
     private void Move()
     {
+        if (!pos)
+        {
+            Debug.LogError("No Pos set!");
+            return;
+        }
+
         Vector3 localVelocity = Vector3.ClampMagnitude(new Vector3(directions.x, 0, directions.z), 1) * speedMod.number;
         rb.velocity = transform.TransformDirection(localVelocity);
         if (directions.x != 0 || directions.z != 0)
