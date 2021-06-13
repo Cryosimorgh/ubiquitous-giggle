@@ -47,11 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChaseDetectionDist: 25
   ChaseSpeed: 1.5
-  AttackDist: 2
+  AttackDist: 1
   DropPercentChance: 25
   MeleeAtkDamage: 5
   StartingHealth: 45
-  KnockbackPercentChance: 50
+  KnockbackPercentChance: 15
   ArmListeners:
   - {fileID: 7120882478814452637}
   - {fileID: 7120882478814452608}

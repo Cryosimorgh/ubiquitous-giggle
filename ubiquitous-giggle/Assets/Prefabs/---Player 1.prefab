@@ -240,6 +240,8 @@ MonoBehaviour:
   deathUIGameObject: {fileID: 0}
   ArmListeners:
   - {fileID: 4857267202938837091}
+  _deathClip: {fileID: 8300000, guid: 3f301ccb8e556ac42b5a7224bee71cf8, type: 3}
+  _hurtClip: {fileID: 8300000, guid: f06646806707b5b40891b5a47ce05730, type: 3}
 --- !u!1 &4857267202615529639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,6 +1246,18 @@ PrefabInstance:
     - target: {fileID: 261150835182662811, guid: ab4b80a777810544f9499be341edb4ff, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 261150835182662811, guid: ab4b80a777810544f9499be341edb4ff, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 261150835182662812, guid: ab4b80a777810544f9499be341edb4ff, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 261150835378106028, guid: ab4b80a777810544f9499be341edb4ff, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 261150835378106030, guid: ab4b80a777810544f9499be341edb4ff, type: 3}
       propertyPath: m_Color.a

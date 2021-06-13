@@ -39,17 +39,6 @@ public class EnemyManager : MonoBehaviour
         
     }
 
-    private void OnDestroy()
-    {
-        if (_createdEnemies.Count > 0)
-        {
-            foreach(EnemyBase enemy in _createdEnemies)
-            {
-                Destroy(enemy.gameObject);
-            }
-        }
-    }
-
     private void OnEnemyDied(EnemyBase enemy)
     {
         // Once enemy dies, spawn new one

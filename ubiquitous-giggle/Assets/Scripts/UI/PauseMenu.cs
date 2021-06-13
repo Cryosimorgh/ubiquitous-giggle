@@ -7,6 +7,7 @@ public class PauseMenu : InputSubscriber
 {
     [SerializeField] private Button resumeGUI;
     [SerializeField] private Button optionsGUI;
+    [SerializeField] private Button returnoptionsGUI;
     [SerializeField] private Button mainMenuGUI;
     [SerializeField] GameObject PauseMenuParent;
     [SerializeField] GameObject OptionsMenuParent;
@@ -17,6 +18,7 @@ public class PauseMenu : InputSubscriber
         {
             resumeGUI.onClick.AddListener(() => PauseMenuUIHandler());
             optionsGUI.onClick.AddListener(() => OptionsMenuUIHandler());
+            returnoptionsGUI.onClick.AddListener(() => OptionsMenuUIHandler());
             mainMenuGUI.onClick.AddListener(() => MainMenuMenuUIHandler());
         }
     }
@@ -28,8 +30,8 @@ public class PauseMenu : InputSubscriber
 
     private void OptionsMenuUIHandler()
     {
-        PauseMenuParent.SetActive(!isActiveAndEnabled);
-        OptionsMenuParent.SetActive(!isActiveAndEnabled);
+        OptionsMenuParent.SetActive(!OptionsMenuParent.activeInHierarchy);
+        PauseMenuParent.SetActive(!PauseMenuParent.activeInHierarchy);
     }
     #region Pause Stuff
     protected override void OnPauseButtonPressed(bool v)
