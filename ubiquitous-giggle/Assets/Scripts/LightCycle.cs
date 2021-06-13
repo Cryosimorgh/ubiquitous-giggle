@@ -10,8 +10,6 @@ public enum LightCycles
 [RequireComponent(typeof(Light))]
 public class LightCycle : MonoBehaviour
 {
-    private bool _isDay;
-    private bool _isNight;
     public float SunSpeed = 1.0f;
     
     public event System.Action<LightCycles> OnCycleChange;
@@ -22,43 +20,31 @@ public class LightCycle : MonoBehaviour
 
     void Start()
     {
-        _isNight = true;
-        _isDay = false;
-        InvokeRepeating(nameof(DayTimer), 0, _repeatingTick);
-        InvokeRepeating(nameof(DayandNight), 0, 120f);
+        InvokeRepeating(nameof(SunRotator), 0, _repeatingTick);
+        InvokeRepeating(nameof(DayNightFlipper), 0, 120f);
         SetNewCycle(LightCycles.Day);
 
         // Set sun rotation to Zero
         this.transform.eulerAngles = Vector3.zero;
     }
 
-    private void DayandNight()
+    private void DayNightFlipper()
     {
-        _isNight = !_isNight;
-        _isDay = !_isDay;
+        if (_currentCycle == LightCycles.Day)
+        {
+            SetNewCycle(LightCycles.Night);
+        }
+        else
+        {
+            SetNewCycle(LightCycles.Day);
+        }
     }
 
-    private void DayTimer()
+    private void SunRotator()
     {
         // 0.075f
         float rotationTick = SunSpeed * _repeatingTick;
         transform.Rotate(rotationTick, 0, 0);
-
-        // ToDo
-        float angle = 45;
-        if (angle == 0.0f || angle == 180.0f)
-        {
-            // X just pased 180, gone night time
-            if (transform.eulerAngles.x > 180.0f && _currentCycle == LightCycles.Day)
-            {
-                SetNewCycle(LightCycles.Night);
-            }
-            // X just passed 0, start of new day
-            else if (transform.eulerAngles.x > 0.0f && _currentCycle == LightCycles.Night)
-            {
-                SetNewCycle(LightCycles.Day);
-            }
-        }
     }
 
     /// <summary>
