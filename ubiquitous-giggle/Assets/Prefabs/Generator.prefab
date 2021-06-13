@@ -285,11 +285,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608d645ad6f3cf544a527b4eba753ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SafetyRadius: 1
   lightsource: {fileID: 7552106578616530482}
   playerHealth: {fileID: 11400000, guid: 7db63afebbd842d4e849f658b06661d3, type: 2}
   mat: {fileID: 2100000, guid: bb122a6d97dc3954bbb14ff490da7ebd, type: 2}
   isTethered: {fileID: 11400000, guid: dd11893533d4c4b4ba7ea905f76b633d, type: 2}
-  isHoldingATree: {fileID: 11400000, guid: 5229e29695150fa4baddfa7b40562395, type: 2}
+  isTree: {fileID: 11400000, guid: e8bb596165ab28340a4ef7507f86c261, type: 2}
+  _generatorRadiusImg: {fileID: 0}
 --- !u!1 &7552106578616530481
 GameObject:
   m_ObjectHideFlags: 0

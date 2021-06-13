@@ -5,6 +5,7 @@ using static UnityEngine.Debug;
 [RequireComponent(typeof(CapsuleCollider))]
 public class BasicVerbs : InputSubscriber
 {
+    [SerializeField] private Transform pos;
     [SerializeField] private FloatSO speedMod;
     [SerializeField] private Camera cam;
     [SerializeField] private Animator anime;
@@ -19,6 +20,8 @@ public class BasicVerbs : InputSubscriber
         base.Start();
         rb = GetComponent<Rigidbody>();
         InvokeRepeating(nameof(IsMoving), 0, 0.1f);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     private void IsMoving()
     {
@@ -77,11 +80,13 @@ public class BasicVerbs : InputSubscriber
     }
     private void Move()
     {
-        rb.velocity = (directions * speedMod.number);
+        Vector3 localVelocity = Vector3.ClampMagnitude(new Vector3(directions.x, 0, directions.z), 1) * speedMod.number;
+        rb.velocity = transform.TransformDirection(localVelocity);
         if (directions.x != 0 || directions.z != 0)
         {
             anime.Play("standing_run_forward");
         }
+        transform.rotation = new Quaternion(0, pos.rotation.y, 0, pos.rotation.w);
     }
     void FixedUpdate()
     {
