@@ -49,6 +49,14 @@ public class @InputMan : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b8bf2e7-336d-46b0-9f4f-63f77cff9fab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -161,6 +169,17 @@ public class @InputMan : IInputActionCollection, IDisposable
                     ""action"": ""WS"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b282de50-fc71-4611-a838-a4abacc7e6ff"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -173,6 +192,7 @@ public class @InputMan : IInputActionCollection, IDisposable
         m_Movement_WS = m_Movement.FindAction("WS", throwIfNotFound: true);
         m_Movement_DoAction = m_Movement.FindAction("DoAction", throwIfNotFound: true);
         m_Movement_MousePosAction = m_Movement.FindAction("MousePosAction", throwIfNotFound: true);
+        m_Movement_Pause = m_Movement.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -226,6 +246,7 @@ public class @InputMan : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_WS;
     private readonly InputAction m_Movement_DoAction;
     private readonly InputAction m_Movement_MousePosAction;
+    private readonly InputAction m_Movement_Pause;
     public struct MovementActions
     {
         private @InputMan m_Wrapper;
@@ -234,6 +255,7 @@ public class @InputMan : IInputActionCollection, IDisposable
         public InputAction @WS => m_Wrapper.m_Movement_WS;
         public InputAction @DoAction => m_Wrapper.m_Movement_DoAction;
         public InputAction @MousePosAction => m_Wrapper.m_Movement_MousePosAction;
+        public InputAction @Pause => m_Wrapper.m_Movement_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -255,6 +277,9 @@ public class @InputMan : IInputActionCollection, IDisposable
                 @MousePosAction.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMousePosAction;
                 @MousePosAction.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMousePosAction;
                 @MousePosAction.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMousePosAction;
+                @Pause.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -271,6 +296,9 @@ public class @InputMan : IInputActionCollection, IDisposable
                 @MousePosAction.started += instance.OnMousePosAction;
                 @MousePosAction.performed += instance.OnMousePosAction;
                 @MousePosAction.canceled += instance.OnMousePosAction;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -281,5 +309,6 @@ public class @InputMan : IInputActionCollection, IDisposable
         void OnWS(InputAction.CallbackContext context);
         void OnDoAction(InputAction.CallbackContext context);
         void OnMousePosAction(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

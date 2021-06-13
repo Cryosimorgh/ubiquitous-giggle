@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using static UnityEngine.SceneManagement.SceneManager;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
@@ -14,10 +14,16 @@ public class MainMenuController : MonoBehaviour
     private Button _options;
 
     [SerializeField]
-    private Button _return;
+    private Button _Optionsreturn;
+
+    [SerializeField]
+    private Button _Creditsreturn;
 
     [SerializeField]
     private GameObject optionsMenu;
+
+    [SerializeField]
+    private GameObject creditsMenu;
 
     [SerializeField]
     private GameObject mainMenu;
@@ -26,22 +32,27 @@ public class MainMenuController : MonoBehaviour
     {
         if (_playBtn)
         {
-            _playBtn.onClick.AddListener(() => this.OnPlayGame());
+            _playBtn.onClick.AddListener(() => OnPlayGame());
         }
 
         if (_quitBtn)
         {
-            _quitBtn.onClick.AddListener(() => this.OnQuitGame());
+            _quitBtn.onClick.AddListener(() => OnQuitGame());
         }
 
         if (_options)
         {
-            _options.onClick.AddListener(() => this.OptionsMenuActivationHandler());
+            _options.onClick.AddListener(() => OptionsMenuActivationHandler());
         }
 
-        if (_return)
+        if (_Optionsreturn)
         {
-            _return.onClick.AddListener(() => this.OptionsMenuActivationHandler());
+            _Optionsreturn.onClick.AddListener(() => OptionsMenuActivationHandler());
+        }
+
+        if (_Creditsreturn)
+        {
+            _Optionsreturn.onClick.AddListener(() => CreditsMenuActivationHandler());
         }
     }
 
@@ -50,19 +61,19 @@ public class MainMenuController : MonoBehaviour
         optionsMenu.SetActive(!optionsMenu.activeInHierarchy);
         mainMenu.SetActive(!optionsMenu.activeInHierarchy);
     }
+    private void CreditsMenuActivationHandler()
+    {
+        creditsMenu.SetActive(!optionsMenu.activeInHierarchy);
+        mainMenu.SetActive(!optionsMenu.activeInHierarchy);
+    }
 
     private void OnPlayGame()
     {
-        LoadScene(1);
+        LoadScene(GetActiveScene().buildIndex + 1);
     }
 
     private void OnQuitGame()
     {
         Application.Quit();
-    }
-
-    private void LoadScene(int index)
-    {
-        SceneManager.LoadScene(index);
     }
 }

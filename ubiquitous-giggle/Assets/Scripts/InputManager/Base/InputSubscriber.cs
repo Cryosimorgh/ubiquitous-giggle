@@ -7,6 +7,7 @@ public class InputSubscriber : MonoBehaviour
     protected virtual void Start()
     {
         SubscribetheButtons();
+        Time.timeScale = 1;
     }
     private void SubscribetheButtons()
     {
@@ -14,7 +15,10 @@ public class InputSubscriber : MonoBehaviour
         inputManagerScript.Movement.WS.performed += ctx => WSAction(ctx.ReadValue<float>());
         inputManagerScript.Movement.MousePosAction.performed += ctx => MousePositionAction(ctx.ReadValue<Vector2>());
         inputManagerScript.Movement.DoAction.performed += ctx => InteractAction(ctx.ReadValueAsButton());
+        inputManagerScript.Movement.Pause.performed += ctx => PauseTheGame(ctx.ReadValueAsButton());
     }
+
+    protected virtual void PauseTheGame(bool v) {}
 
     protected virtual void MousePositionAction(Vector2 axis) {}
     protected virtual void ADAction(float direction) {}

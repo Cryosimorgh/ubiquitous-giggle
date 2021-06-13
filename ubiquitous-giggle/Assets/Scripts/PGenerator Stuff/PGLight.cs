@@ -9,6 +9,7 @@ public class PGLight : MonoBehaviour
     [SerializeField] private FloatSO playerHealth;
     [SerializeField] private Material mat;
     [SerializeField] private BoolSO isTethered;
+    [SerializeField] private BoolSO isTree;
     private float lightIntensity;
     private bool increase;
     private bool decrease;
@@ -16,19 +17,20 @@ public class PGLight : MonoBehaviour
     {
         lightIntensity = 12;
         mat.color = Color.red;
-        InvokeRepeating(nameof(LightDecline), 0, 1f);
+        InvokeRepeating(nameof(LightDecline), 0, 5f);
     }
     private void MatChangeColor()
     {
-        if (mat.color.r == 0)
+        if (lightIntensity == 0)
         {
             playerHealth.number = 0;
         }
         if (increase)
         {
-            mat.color *= 2;
-            lightIntensity += 1;
+            mat.color *= 6;
+            lightIntensity += 3;
             increase = false;
+            isTree.boolean = false;
             return;
         }
         if (decrease)
@@ -43,7 +45,6 @@ public class PGLight : MonoBehaviour
     private void LightDecline()
     {
         decrease = true;
-        Debug.Log(mat.color);
     }
     void Update()
     {

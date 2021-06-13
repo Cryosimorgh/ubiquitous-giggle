@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static UnityEngine.Debug;
 [RequireComponent(typeof(Rigidbody))]
@@ -5,20 +6,37 @@ using static UnityEngine.Debug;
 public class BasicVerbs : InputSubscriber
 {
     [SerializeField] private FloatSO speedMod;
+    [SerializeField] private FloatSO rotationSpeed;
     [SerializeField] private Camera cam;
     [SerializeField] private Animator anime;
     [SerializeField] private BoolSO isTree;
     [SerializeField] private BoolSO isHoldingATree;
     private Rigidbody rb;
     private Vector3 directions;
+    private Quaternion rotateThePlayer;
+    private Vector3 previousPos;
     protected override void Start()
     {
+        previousPos = transform.position;
         base.Start();
         rb = GetComponent<Rigidbody>();
+        InvokeRepeating(nameof(IsMoving), 0, 0.1f);
+    }
+    private void IsMoving()
+    {
+        if (previousPos.z != transform.position.z || previousPos.x != transform.position.x)
+        {
+            anime.SetBool("isMoving",true);
+            previousPos = transform.position;
+        }
+        else
+        {
+            anime.SetBool("isMoving",false);
+        }
     }
     protected override void ADAction(float directionx)
     {
-        directions.x = directionx;
+        rotateThePlayer.y = directionx * rotationSpeed.number;
     }
     protected override void WSAction(float directionz)
     {
@@ -77,6 +95,7 @@ public class BasicVerbs : InputSubscriber
         {
             anime.Play("standing_run_forward");
         }
+        transform.localRotation = rotateThePlayer ;
     }
     void FixedUpdate()
     {
