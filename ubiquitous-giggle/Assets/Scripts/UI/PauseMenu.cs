@@ -23,7 +23,7 @@ public class PauseMenu : InputSubscriber
 
     private void MainMenuMenuUIHandler()
     {
-        LoadScene(1);
+        LoadScene("MainMenu");
     }
 
     private void OptionsMenuUIHandler()
