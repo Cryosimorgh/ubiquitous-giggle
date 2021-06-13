@@ -16,6 +16,10 @@ public class TreeChecker : MonoBehaviour
         {
             treeGameObject = other.gameObject;
             isTree.boolean = true;
+            if (isHoldingATree.boolean)
+            {
+                other.GetComponent<CapsuleCollider>().enabled = false;
+            }
         }
     }
     void FixedUpdate()
@@ -30,6 +34,7 @@ public class TreeChecker : MonoBehaviour
     {
         if (other.CompareTag("Fuel"))
         {
+            other.GetComponent<CapsuleCollider>().enabled = true;
             treeGameObject = null;
             isTree.boolean = false;
         }
