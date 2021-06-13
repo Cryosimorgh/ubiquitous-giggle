@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : Singleton<EnemyManager>
+public class EnemyManager : MonoBehaviour
 {
     /// <summary>
     /// Total amount of enemies to exist in the scene
@@ -37,6 +37,17 @@ public class EnemyManager : Singleton<EnemyManager>
     void Update()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+        if (_createdEnemies.Count > 0)
+        {
+            foreach(EnemyBase enemy in _createdEnemies)
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
     }
 
     private void OnEnemyDied(EnemyBase enemy)
