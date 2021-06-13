@@ -25,6 +25,13 @@ enum FSMState
     Update = 1,
 }
 
+[System.Serializable]
+public class EnemyAudioClips
+{
+    public AudioClip Hurt;
+    public AudioClip Death;
+}
+
 /// <summary>
 /// Base class for enemies
 /// </summary>
@@ -79,6 +86,12 @@ public class EnemyBase : MonoBehaviour
     // Prefab to drop below enemy as fuel
     [SerializeField]
     private GameObject _fuelPrefab;
+
+    [SerializeField]
+    private AudioSource _audioSource;
+
+    [SerializeField]
+    private EnemyAudioClips _audioClips;
 
     // Health of the enemy
     private float _health;
@@ -154,6 +167,11 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
+        if (!_audioSource)
+        {
+            _audioSource = this.gameObject.AddComponent<AudioSource>();
+        }
+
         // Get reference to Player Generator in scene
         GameObject generator = GameObject.Find("Generator");
         if (generator != null)
@@ -168,6 +186,7 @@ public class EnemyBase : MonoBehaviour
         {
             atkMessenger.OnAttackFinished += this.OnAttackFinished;
         }
+
 
         // Provide random rotation on start
         this.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
@@ -335,6 +354,7 @@ public class EnemyBase : MonoBehaviour
         Debug.Log($"Enemy '{this.name}' died!");
         _fsmState = FSMState.Update;
 
+        // Create random value for change to drop fuel
         float rnd = Random.Range(0, 100);
         if (rnd <= DropPercentChance)
         {
@@ -343,6 +363,7 @@ public class EnemyBase : MonoBehaviour
             fuelGO.transform.eulerAngles = new Vector3(Random.Range(0, 360), 0, Random.Range(0, 360));
         }
 
+        // Set on death trigger in animator
         if (_animator)
         {
             _animator.SetTrigger("onDeath");
@@ -354,7 +375,11 @@ public class EnemyBase : MonoBehaviour
             OnEnemyDeath.Invoke(this);
         }
 
+        // Start fade and destroy
         StartCoroutine(DelayAndRemove(5.0f));
+
+        // Play death sound clip
+        PlayClip(_audioSource, _audioClips.Death);
     }
 
     private void DeathUpdate() { }
@@ -422,8 +447,12 @@ public class EnemyBase : MonoBehaviour
         }
         else
         {
+            // Set new HP of enemy
             float newHp = currentHp - dmgAmount;
             SetHealth(newHp);
+
+            // Play Hurt clip
+            PlayClip(_audioSource, _audioClips.Hurt);
 
             // % chance to knockback when recieveing damage
             float rndChance = Random.Range(0, 100);
@@ -510,5 +539,21 @@ public class EnemyBase : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         Destroy(this);
+    }
+
+    /// <summary>
+    /// Plays a clip on the provided audio source
+    /// </summary>
+    /// <param name="source">Audio source to play through</param>
+    /// <param name="clip">Clip to play through source</param>
+    /// <param name="pitchVariance">amount of variance in pitch</param>
+    private void PlayClip(AudioSource source, AudioClip clip, float pitchVariance = 0.2f)
+    {
+        if (source)
+        {
+            source.clip = clip;
+            source.pitch = Random.Range(1 - (pitchVariance / 2), 1 + (pitchVariance / 2));
+            source.Play();
+        }
     }
 }
