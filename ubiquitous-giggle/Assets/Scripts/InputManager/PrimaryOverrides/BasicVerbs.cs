@@ -82,7 +82,7 @@ public class BasicVerbs : InputSubscriber
     }
     private void Move()
     {
-        if (!pos)
+        if (!camerasposition)
         {
             Debug.LogError("No Pos set!");
             return;
