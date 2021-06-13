@@ -379,7 +379,7 @@ public class EnemyBase : MonoBehaviour
         StartCoroutine(DelayAndRemove(5.0f));
 
         // Play death sound clip
-        PlayClip(_audioSource, _audioClips.Death);
+        AudioHelper.PlayClipAtSource(_audioSource, _audioClips.Death);
     }
 
     private void DeathUpdate() { }
@@ -452,7 +452,7 @@ public class EnemyBase : MonoBehaviour
             SetHealth(newHp);
 
             // Play Hurt clip
-            PlayClip(_audioSource, _audioClips.Hurt);
+            AudioHelper.PlayClipAtSource(_audioSource, _audioClips.Hurt);
 
             // % chance to knockback when recieveing damage
             float rndChance = Random.Range(0, 100);
@@ -539,21 +539,5 @@ public class EnemyBase : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         Destroy(this);
-    }
-
-    /// <summary>
-    /// Plays a clip on the provided audio source
-    /// </summary>
-    /// <param name="source">Audio source to play through</param>
-    /// <param name="clip">Clip to play through source</param>
-    /// <param name="pitchVariance">amount of variance in pitch</param>
-    private void PlayClip(AudioSource source, AudioClip clip, float pitchVariance = 0.2f)
-    {
-        if (source)
-        {
-            source.clip = clip;
-            source.pitch = Random.Range(1 - (pitchVariance / 2), 1 + (pitchVariance / 2));
-            source.Play();
-        }
     }
 }

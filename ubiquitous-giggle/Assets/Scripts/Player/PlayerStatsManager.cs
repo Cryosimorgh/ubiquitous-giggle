@@ -58,14 +58,14 @@ public class PlayerStatsManager : MonoBehaviour
         LoadScene(GetActiveScene().buildIndex);
         StopAllCoroutines();
 
-        PlaySound(_audioSource, _deathClip);
+        AudioHelper.PlayClipAtSource(_audioSource, _deathClip);
     }
 
     public void RecieveDamage(float dmg)
     {
         playerhealth.number -= dmg;
 
-        PlaySound(_audioSource, _hurtClip);
+        AudioHelper.PlayClipAtSource(_audioSource, _hurtClip);
     }
 
     private void OnArmAttackOverlap(Collider other)
@@ -74,15 +74,6 @@ public class PlayerStatsManager : MonoBehaviour
         if (enemy)
         {
             enemy.RecieveDamage(MeleeAtkDamage);
-        }
-    }
-
-    private void PlaySound(AudioSource source, AudioClip clip)
-    {
-        if (source && clip)
-        {
-            source.clip = clip;
-            source.Play();
         }
     }
 }
