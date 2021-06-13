@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b918f52a7cc7e4296438d24a960bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChaseDetectionDist: 400
-  ChaseSpeed: 2
+  ChaseDetectionDist: 25
+  ChaseSpeed: 1.5
   AttackDist: 2
   DropPercentChance: 50
   MeleeAtkDamage: 5

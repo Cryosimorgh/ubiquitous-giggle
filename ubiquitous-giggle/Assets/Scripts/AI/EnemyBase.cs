@@ -102,7 +102,7 @@ public class EnemyBase : MonoBehaviour
 
         _target = null;
 
-        ChaseDetectionDist = 50;
+        ChaseDetectionDist = 25;
         ChaseSpeed = 4;
         AttackDist = 2;
         DropPercentChance = 17;
@@ -360,6 +360,8 @@ public class EnemyBase : MonoBehaviour
         {
             OnEnemyDeath.Invoke(this);
         }
+
+        StartCoroutine(DelayAndRemove(5.0f));
     }
 
     private void DeathUpdate() { }
@@ -377,7 +379,7 @@ public class EnemyBase : MonoBehaviour
         if (_target)
         {
             // Check if player copmes within range to chase them bk
-            if (IsInRange(_spawnLocation, 100.0f))
+            if (IsInRange(_spawnLocation, 10.0f))
             {
                 SetActionState(ActionStates.Idle);
                 return;
@@ -501,5 +503,12 @@ public class EnemyBase : MonoBehaviour
         _nmAgent.SetPath(_nmPath);
 
         return true;
+    }
+
+    private IEnumerator DelayAndRemove(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        Destroy(this);
     }
 }

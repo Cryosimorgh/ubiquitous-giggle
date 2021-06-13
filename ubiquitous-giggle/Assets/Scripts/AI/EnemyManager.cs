@@ -46,6 +46,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
         if (_createdEnemies.Count < TotalEnemiesToSpawn)
         {
+            Debug.Log("Enemy died, spawning new Enemy");
             SpawnNewEnemy();
         }
     }
