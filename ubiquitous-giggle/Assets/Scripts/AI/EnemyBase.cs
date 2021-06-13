@@ -51,6 +51,14 @@ public class EnemyBase : MonoBehaviour
     /// Amount of damage to deal to the target when performing melee atk
     /// </summary>
     public float MeleeAtkDamage;
+    /// <summary>
+    /// Starting health of the enemy
+    /// </summary>
+    public float StartingHealth;
+    /// <summary>
+    /// Percent chance for enemy to be knockedback on recieving a damage instance
+    /// </summary>
+    public float KnockbackPercentChance;
 
     /// <summary>
     /// List of arm listener classes that are placed on enemy's swing joints
@@ -96,7 +104,7 @@ public class EnemyBase : MonoBehaviour
 
     public EnemyBase()
     {
-        _health = 0;
+        _health = 50;
         _currentActionState = ActionStates.Idle;
         _fsmState = FSMState.Start;
 
@@ -107,6 +115,8 @@ public class EnemyBase : MonoBehaviour
         AttackDist = 2;
         DropPercentChance = 17;
         MeleeAtkDamage = 5.0f;
+        KnockbackPercentChance = 50.0f;
+        StartingHealth = 45.0f;
     }
 
     #region MonoBehaviours
@@ -174,23 +184,6 @@ public class EnemyBase : MonoBehaviour
         {
             _animator.SetFloat("movementVelocity", _nmAgent.velocity.sqrMagnitude);
             _animator.SetBool("bIsAttacking", _currentActionState == ActionStates.Attack);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // ToDo: Implement Player axe detection, remove health
-        if (false)
-        {
-            // Get dmg amount for axe swing
-            float dmgAmount = 0.0f;
-            RecieveDamage(dmgAmount);
-
-            float rndChance = Random.Range(0, 100);
-            if (rndChance < 50) // 50% chance to be knocked back
-            {
-                Knockback();
-            }
         }
     }
 
@@ -431,6 +424,13 @@ public class EnemyBase : MonoBehaviour
         {
             float newHp = currentHp - dmgAmount;
             SetHealth(newHp);
+
+            // % chance to knockback when recieveing damage
+            float rndChance = Random.Range(0, 100);
+            if (rndChance < KnockbackPercentChance) // 50% chance to be knocked back
+            {   
+                Knockback();
+            }
 
             Debug.Log($"Enemy '{this.name}' recieved '{dmgAmount}' dmg (New health: '{newHp}')");
         }
