@@ -11,6 +11,13 @@ public class PlayerStatsManager : MonoBehaviour
 
     public List<ArmColliderListener> ArmListeners;
 
+    // Main source of audio for the player
+    private AudioSource _audioSource;
+    // Sound to play when player dies
+    private AudioClip _deathClip;
+    // Sound to play when player is hurt, recieved damage
+    private AudioClip _hurtClip;
+
     private void Start()
     {
         playerhealth.number = 100f;
@@ -20,6 +27,11 @@ public class PlayerStatsManager : MonoBehaviour
             {
                 arm.OnTriggerOverlap += OnArmAttackOverlap;
             }
+        }
+
+        if (!_audioSource)
+        {
+            _audioSource = this.gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -45,11 +57,15 @@ public class PlayerStatsManager : MonoBehaviour
         }
         LoadScene(GetActiveScene().buildIndex);
         StopAllCoroutines();
+
+        PlaySound(_audioSource, _deathClip);
     }
 
     public void RecieveDamage(float dmg)
     {
         playerhealth.number -= dmg;
+
+        PlaySound(_audioSource, _hurtClip);
     }
 
     private void OnArmAttackOverlap(Collider other)
@@ -58,6 +74,15 @@ public class PlayerStatsManager : MonoBehaviour
         if (enemy)
         {
             enemy.RecieveDamage(MeleeAtkDamage);
+        }
+    }
+
+    private void PlaySound(AudioSource source, AudioClip clip)
+    {
+        if (source && clip)
+        {
+            source.clip = clip;
+            source.Play();
         }
     }
 }
