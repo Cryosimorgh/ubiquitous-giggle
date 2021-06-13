@@ -13,6 +13,7 @@ enum ActionStates
     Attack = 2,
     Death = 3,
     KnockBack = 4,
+    Retreat = 5,
 }
 
 /// <summary>
@@ -91,6 +92,8 @@ public class EnemyBase : MonoBehaviour
     // Is the enemy currently attacking the target?
     private bool bIsAttacking = false;
 
+    private Vector3 _spawnLocation;
+
     public EnemyBase()
     {
         _health = 0;
@@ -155,6 +158,11 @@ public class EnemyBase : MonoBehaviour
         {
             atkMessenger.OnAttackFinished += this.OnAttackFinished;
         }
+
+        // Provide random rotation on start
+        this.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+
+        _spawnLocation = this.transform.position;
     }
 
     protected virtual void Update()
@@ -233,6 +241,15 @@ public class EnemyBase : MonoBehaviour
                     // Await anim callback to OnKnockbackFinish()
                     break;
                 }
+            case ActionStates.Retreat:
+                {
+                    if (_fsmState == FSMState.Start) {
+                        RetreatStart();
+                    } else if (_fsmState == FSMState.Update) {
+                        RetreatUpdate();
+                    }
+                    break;
+                }
             default:
                 Debug.LogError($"Unknown state '{_currentActionState}'");
                 break;
@@ -285,20 +302,14 @@ public class EnemyBase : MonoBehaviour
             // If enemy goes within radius of safety generator, stop chasing
             if (_powerGenerator && IsInRange(_powerGenerator.gameObject, _powerGenerator.GetRadiusAsInGameUnits()))
             {
-                SetActionState(ActionStates.Idle);
+                SetActionState(ActionStates.Retreat);
                 return;
             }
 
             // Move towards target actor if no path or existing path is complete
-            if (_nmAgent && (!_nmAgent.hasPath || _nmAgent.hasPath && _nmAgent.pathStatus == NavMeshPathStatus.PathComplete))
+            if (_nmAgent)
             {
-                bool success = NavMesh.CalculatePath(this.transform.position, _target.transform.position, NavMesh.AllAreas, _nmPath);
-                if (!success)
-                {
-                    Debug.LogError("Unable to create path to target!");
-                    return;
-                }
-                _nmAgent.SetPath(_nmPath);
+                PathTowards(_target.transform.position);
             }
         }
     }
@@ -314,7 +325,7 @@ public class EnemyBase : MonoBehaviour
         if (_target && !bIsAttacking)
         {
             // Validate distance between enemy and player to check still in range
-            if (IsInRange(_target, AttackDist))
+            if (!IsInRange(_target, AttackDist))
             {
                 SetActionState(ActionStates.Chasing);
             }
@@ -352,6 +363,27 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void DeathUpdate() { }
+
+    private void RetreatStart()
+    {
+        _fsmState = FSMState.Update;
+
+        // Retreat towards spawn
+        PathTowards(_spawnLocation);
+    }
+
+    private void RetreatUpdate()
+    {
+        if (_target)
+        {
+            // Check if player copmes within range to chase them bk
+            if (IsInRange(_spawnLocation, 100.0f))
+            {
+                SetActionState(ActionStates.Idle);
+                return;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets the current amount of health (hp) the enemy has
@@ -437,10 +469,18 @@ public class EnemyBase : MonoBehaviour
     /// <returns></returns>
     private bool IsInRange(GameObject go, float distance)
     {
-        if (go == null || distance < 0.0f)
+        if (go == null)
             return false;
 
-        float dist = Vector3.Distance(this.gameObject.transform.position, go.transform.position);
+        return IsInRange(go.transform.position, distance);
+    }
+
+    private bool IsInRange(Vector3 position, float distance)
+    {
+        if (position == Vector3.zero|| distance < 0.0f)
+            return false;
+
+        float dist = Vector3.Distance(this.gameObject.transform.position, position);
         return dist <= distance;
     }
 
@@ -448,5 +488,18 @@ public class EnemyBase : MonoBehaviour
     {
         // Once atk finished callback from messenger, set isAttacking to false
         bIsAttacking = false;
+    }
+
+    private bool PathTowards(Vector3 worldPosition)
+    {
+        bool success = NavMesh.CalculatePath(this.transform.position, worldPosition, NavMesh.AllAreas, _nmPath);
+        if (!success)
+        {
+            //Debug.LogError("Unable to create path to target!");
+            return false;
+        }
+        _nmAgent.SetPath(_nmPath);
+
+        return true;
     }
 }
