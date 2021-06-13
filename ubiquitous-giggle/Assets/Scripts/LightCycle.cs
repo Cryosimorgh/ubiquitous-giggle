@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum LightCycles
@@ -9,6 +10,8 @@ public enum LightCycles
 [RequireComponent(typeof(Light))]
 public class LightCycle : MonoBehaviour
 {
+    private bool _isDay;
+    private bool _isNight;
     public float SunSpeed = 1.0f;
     
     public event System.Action<LightCycles> OnCycleChange;
@@ -19,11 +22,20 @@ public class LightCycle : MonoBehaviour
 
     void Start()
     {
+        _isNight = true;
+        _isDay = false;
         InvokeRepeating(nameof(DayTimer), 0, _repeatingTick);
+        InvokeRepeating(nameof(DayandNight), 0, 120f);
         SetNewCycle(LightCycles.Day);
 
         // Set sun rotation to Zero
         this.transform.eulerAngles = Vector3.zero;
+    }
+
+    private void DayandNight()
+    {
+        _isNight = !_isNight;
+        _isDay = !_isDay;
     }
 
     private void DayTimer()
