@@ -10,6 +10,9 @@ public enum LightCycles
 [RequireComponent(typeof(Light))]
 public class LightCycle : MonoBehaviour
 {
+    [SerializeField] private FloatSO score;
+    [SerializeField] private FloatSO highscore;
+
     public float SunSpeed = 1.0f;
     
     public event System.Action<LightCycles> OnCycleChange;
@@ -20,6 +23,7 @@ public class LightCycle : MonoBehaviour
 
     void Start()
     {
+        score.number = 0;
         InvokeRepeating(nameof(SunRotator), 0, _repeatingTick);
         InvokeRepeating(nameof(DayNightFlipper), 0, 120f);
         SetNewCycle(LightCycles.Day);
@@ -30,6 +34,7 @@ public class LightCycle : MonoBehaviour
 
     private void DayNightFlipper()
     {
+        ScoreHandlerF();
         if (_currentCycle == LightCycles.Day)
         {
             SetNewCycle(LightCycles.Night);
@@ -37,6 +42,15 @@ public class LightCycle : MonoBehaviour
         else
         {
             SetNewCycle(LightCycles.Day);
+        }
+    }
+
+    private void ScoreHandlerF()
+    {
+        score.number += 0.5f;
+        if (score.number >= highscore.number)
+        {
+            highscore.number = score.number;
         }
     }
 

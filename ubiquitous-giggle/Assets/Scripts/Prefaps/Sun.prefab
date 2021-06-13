@@ -106,4 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e35ca1b07dc6d40bb554dc748d8d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: {fileID: 11400000, guid: 416fffb86862fab448722a3752e98369, type: 2}
+  highscore: {fileID: 11400000, guid: 2492258ccea972c419381d76c82a125d, type: 2}
   SunSpeed: 1
