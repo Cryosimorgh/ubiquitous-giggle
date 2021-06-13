@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.SceneManagement.SceneManager;
-
 public class PlayerStatsManager : MonoBehaviour
 {
     public float MeleeAtkDamage = 5.0f;
@@ -20,7 +18,7 @@ public class PlayerStatsManager : MonoBehaviour
         {
             foreach(ArmColliderListener arm in ArmListeners)
             {
-                arm.OnTriggerOverlap += this.OnArmAttackOverlap;
+                arm.OnTriggerOverlap += OnArmAttackOverlap;
             }
         }
     }
@@ -29,6 +27,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         if (playerhealth.number <= 0)
         {
+            playerhealth.number = 100f;
             StartCoroutine(PlayerDied());
         }
     }
@@ -36,13 +35,16 @@ public class PlayerStatsManager : MonoBehaviour
     private IEnumerator PlayerDied()
     {
         if (deathUIGameObject)
+        { 
             deathUIGameObject.SetActive(true);
-
+        }
         yield return new WaitForSeconds(1f);
-
         if (deathUIGameObject)
+        {
             deathUIGameObject.SetActive(false);
+        }
         LoadScene(GetActiveScene().buildIndex);
+        StopAllCoroutines();
     }
 
     public void RecieveDamage(float dmg)
