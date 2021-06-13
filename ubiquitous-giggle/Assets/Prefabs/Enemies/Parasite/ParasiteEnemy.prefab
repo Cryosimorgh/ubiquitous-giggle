@@ -58,6 +58,10 @@ MonoBehaviour:
   _debugTarget: {fileID: 0}
   _animator: {fileID: 3726976404270179861}
   _fuelPrefab: {fileID: 660366309900326968, guid: 2819db801bd251a41bd176c6e75b06ef, type: 3}
+  _audioSource: {fileID: 0}
+  _audioClips:
+    Hurt: {fileID: 8300000, guid: 1936dbb801d6c044a9da72b3653d954b, type: 3}
+    Death: {fileID: 8300000, guid: 09998f908b0d10f479ecd1b4b7103da5, type: 3}
 --- !u!136 &2646945863988527418
 CapsuleCollider:
   m_ObjectHideFlags: 0
