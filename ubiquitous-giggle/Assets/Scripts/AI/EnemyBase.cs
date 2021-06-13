@@ -78,6 +78,10 @@ public class EnemyBase : MonoBehaviour
     // Current path of the nav mesh agent
     private NavMeshPath _nmPath;
 
+    // Scene reference to main power generator player owns
+    private PGLight _powerGenerator;
+    public float PowerGenRadius;
+
     public EnemyBase()
     {
         _health = 0;
@@ -127,6 +131,10 @@ public class EnemyBase : MonoBehaviour
                 arm.OnTriggerOverlap += this.OnArmTriggerOverlapped;
             }
         }
+
+        _powerGenerator = PGLight.Instance;
+        if (!_powerGenerator)
+            Debug.LogError("Unable to find PowerGenerator in level!");
     }
 
     protected virtual void Update()
@@ -231,8 +239,7 @@ public class EnemyBase : MonoBehaviour
         if (_target)
         {
             // Check if target is within detection radius to chase
-            float dist = Vector3.Distance(this.transform.position, _target.transform.position);
-            if (dist <= ChaseDetectionDist)
+            if (IsInRange(_target, ChaseDetectionDist))
             {
                 SetActionState(ActionStates.Chasing);
             }
@@ -248,10 +255,16 @@ public class EnemyBase : MonoBehaviour
     {
         if (_target)
         {
-            float dist = Vector3.Distance(this.transform.position, _target.transform.position);
-            if (dist <= AttackDist)
+            // If target is within atk dist, attack
+            if (IsInRange(_target, AttackDist))
             {
                 SetActionState(ActionStates.Attack);
+            }
+
+            // If enemy goes within radius of safety generator, stop chasing
+            if (IsInRange(_powerGenerator.gameObject, _powerGenerator.GetRadiusAsInGameUnits()))
+            {
+                SetActionState(ActionStates.Idle);
             }
 
             // Move towards target actor if no path or existing path is complete
@@ -283,8 +296,7 @@ public class EnemyBase : MonoBehaviour
             }
 
             // Validate distance between enemy and player to check still in range
-            float dist = Vector3.Distance(this.transform.position, _target.transform.position);
-            if (dist > AttackDist)
+            if (IsInRange(_target, AttackDist))
             {
                 SetActionState(ActionStates.Chasing);
             }
@@ -384,5 +396,20 @@ public class EnemyBase : MonoBehaviour
                 playerStats.RecieveDamage(MeleeAtkDamage);
             }
         }
+    }
+
+    /// <summary>
+    /// Checks if the given game object is <= the given distance
+    /// </summary>
+    /// <param name="go"></param>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    private bool IsInRange(GameObject go, float distance)
+    {
+        if (go == null || distance < 0.0f)
+            return false;
+
+        float dist = Vector3.Distance(this.gameObject.transform.position, go.transform.position);
+        return dist <= distance;
     }
 }
