@@ -30,14 +30,6 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "MousePosAction",
-                    "type": "Value",
-                    "id": "2041b297-9cbe-417c-ab58-41392b1da0c7",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "0b8bf2e7-336d-46b0-9f4f-63f77cff9fab",
@@ -77,17 +69,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "DoAction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0b53551b-71b7-4819-a56a-b8d44787afdc",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MousePosAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

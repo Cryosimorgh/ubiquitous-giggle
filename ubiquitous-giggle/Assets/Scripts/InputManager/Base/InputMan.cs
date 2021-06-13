@@ -43,14 +43,6 @@ public class @InputMan : IInputActionCollection, IDisposable
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
-                    ""name"": ""MousePosAction"",
-                    ""type"": ""Value"",
-                    ""id"": ""2041b297-9cbe-417c-ab58-41392b1da0c7"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""0b8bf2e7-336d-46b0-9f4f-63f77cff9fab"",
@@ -90,17 +82,6 @@ public class @InputMan : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DoAction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0b53551b-71b7-4819-a56a-b8d44787afdc"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MousePosAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -191,7 +172,6 @@ public class @InputMan : IInputActionCollection, IDisposable
         m_Movement_AD = m_Movement.FindAction("AD", throwIfNotFound: true);
         m_Movement_WS = m_Movement.FindAction("WS", throwIfNotFound: true);
         m_Movement_DoAction = m_Movement.FindAction("DoAction", throwIfNotFound: true);
-        m_Movement_MousePosAction = m_Movement.FindAction("MousePosAction", throwIfNotFound: true);
         m_Movement_Pause = m_Movement.FindAction("Pause", throwIfNotFound: true);
     }
 
@@ -245,7 +225,6 @@ public class @InputMan : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_AD;
     private readonly InputAction m_Movement_WS;
     private readonly InputAction m_Movement_DoAction;
-    private readonly InputAction m_Movement_MousePosAction;
     private readonly InputAction m_Movement_Pause;
     public struct MovementActions
     {
@@ -254,7 +233,6 @@ public class @InputMan : IInputActionCollection, IDisposable
         public InputAction @AD => m_Wrapper.m_Movement_AD;
         public InputAction @WS => m_Wrapper.m_Movement_WS;
         public InputAction @DoAction => m_Wrapper.m_Movement_DoAction;
-        public InputAction @MousePosAction => m_Wrapper.m_Movement_MousePosAction;
         public InputAction @Pause => m_Wrapper.m_Movement_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
@@ -274,9 +252,6 @@ public class @InputMan : IInputActionCollection, IDisposable
                 @DoAction.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnDoAction;
                 @DoAction.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnDoAction;
                 @DoAction.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnDoAction;
-                @MousePosAction.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMousePosAction;
-                @MousePosAction.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMousePosAction;
-                @MousePosAction.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMousePosAction;
                 @Pause.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnPause;
@@ -293,9 +268,6 @@ public class @InputMan : IInputActionCollection, IDisposable
                 @DoAction.started += instance.OnDoAction;
                 @DoAction.performed += instance.OnDoAction;
                 @DoAction.canceled += instance.OnDoAction;
-                @MousePosAction.started += instance.OnMousePosAction;
-                @MousePosAction.performed += instance.OnMousePosAction;
-                @MousePosAction.canceled += instance.OnMousePosAction;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -308,7 +280,6 @@ public class @InputMan : IInputActionCollection, IDisposable
         void OnAD(InputAction.CallbackContext context);
         void OnWS(InputAction.CallbackContext context);
         void OnDoAction(InputAction.CallbackContext context);
-        void OnMousePosAction(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
 }

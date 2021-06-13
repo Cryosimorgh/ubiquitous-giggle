@@ -6,14 +6,12 @@ using static UnityEngine.Debug;
 public class BasicVerbs : InputSubscriber
 {
     [SerializeField] private FloatSO speedMod;
-    [SerializeField] private FloatSO rotationSpeed;
     [SerializeField] private Camera cam;
     [SerializeField] private Animator anime;
     [SerializeField] private BoolSO isTree;
     [SerializeField] private BoolSO isHoldingATree;
     private Rigidbody rb;
     private Vector3 directions;
-    private Quaternion rotateThePlayer;
     private Vector3 previousPos;
     protected override void Start()
     {
@@ -36,7 +34,7 @@ public class BasicVerbs : InputSubscriber
     }
     protected override void ADAction(float directionx)
     {
-        rotateThePlayer.y = directionx * rotationSpeed.number;
+        directions.x = directionx;
     }
     protected override void WSAction(float directionz)
     {
@@ -77,17 +75,6 @@ public class BasicVerbs : InputSubscriber
             }
         }
     }
-    protected override void MousePositionAction(Vector2 axis)
-    {
-        // Covert mouse position to vector3 and set depth to get correct world location
-        //Vector3 mousePosVector3 = new Vector3(axis.x, axis.y, Camera.main.nearClipPlane);
-        //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosVector3);
-        //Debug.Log($"mousePos = '{axis}' to worldPos = '{worldPosition}'");
-
-        // Do LookAt world position and ignore X/Z axis'
-        //this.transform.LookAt(worldPosition);
-        //this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-    }
     private void Move()
     {
         rb.velocity = (directions * speedMod.number);
@@ -95,7 +82,6 @@ public class BasicVerbs : InputSubscriber
         {
             anime.Play("standing_run_forward");
         }
-        transform.localRotation = rotateThePlayer ;
     }
     void FixedUpdate()
     {

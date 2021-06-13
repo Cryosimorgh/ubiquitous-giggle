@@ -20,6 +20,9 @@ public class MainMenuController : MonoBehaviour
     private Button _Creditsreturn;
 
     [SerializeField]
+    private Button _credits;
+
+    [SerializeField]
     private GameObject optionsMenu;
 
     [SerializeField]
@@ -44,6 +47,10 @@ public class MainMenuController : MonoBehaviour
         {
             _options.onClick.AddListener(() => OptionsMenuActivationHandler());
         }
+        if (_credits)
+        {
+            _credits.onClick.AddListener(() => CreditsMenuActivationHandler());
+        }
 
         if (_Optionsreturn)
         {
@@ -52,19 +59,19 @@ public class MainMenuController : MonoBehaviour
 
         if (_Creditsreturn)
         {
-            _Optionsreturn.onClick.AddListener(() => CreditsMenuActivationHandler());
+            _Creditsreturn.onClick.AddListener(() => CreditsMenuActivationHandler());
         }
     }
 
     private void OptionsMenuActivationHandler()
     {
         optionsMenu.SetActive(!optionsMenu.activeInHierarchy);
-        mainMenu.SetActive(!optionsMenu.activeInHierarchy);
+        mainMenu.SetActive(!mainMenu.activeInHierarchy);
     }
     private void CreditsMenuActivationHandler()
     {
-        creditsMenu.SetActive(!optionsMenu.activeInHierarchy);
-        mainMenu.SetActive(!optionsMenu.activeInHierarchy);
+        creditsMenu.SetActive(!creditsMenu.activeInHierarchy);
+        mainMenu.SetActive(!mainMenu.activeInHierarchy);
     }
 
     private void OnPlayGame()

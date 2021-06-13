@@ -13,14 +13,10 @@ public class InputSubscriber : MonoBehaviour
     {
         inputManagerScript.Movement.AD.performed += ctx => ADAction(ctx.ReadValue<float>());
         inputManagerScript.Movement.WS.performed += ctx => WSAction(ctx.ReadValue<float>());
-        inputManagerScript.Movement.MousePosAction.performed += ctx => MousePositionAction(ctx.ReadValue<Vector2>());
         inputManagerScript.Movement.DoAction.performed += ctx => InteractAction(ctx.ReadValueAsButton());
-        inputManagerScript.Movement.Pause.performed += ctx => PauseTheGame(ctx.ReadValueAsButton());
+        inputManagerScript.Movement.Pause.performed += ctx => OnPauseButtonPressed(ctx.ReadValueAsButton());
     }
-
-    protected virtual void PauseTheGame(bool v) {}
-
-    protected virtual void MousePositionAction(Vector2 axis) {}
+    protected virtual void OnPauseButtonPressed(bool v) {}
     protected virtual void ADAction(float direction) {}
     protected virtual void WSAction(float direction) {}
     protected virtual void InteractAction(bool performed) {}

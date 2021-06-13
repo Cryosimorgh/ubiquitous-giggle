@@ -1,11 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : InputSubscriber
 {
+    [SerializeField]
+    private Button _playBtn;
+    protected override void Start()
+    {
+        base.Start();
+        if (_playBtn)
+        {
+            _playBtn.onClick.AddListener(() => PauseMenuUIHandler());
+        }
+    }
     [SerializeField] GameObject PauseMenuUI;
-    protected override void PauseTheGame(bool v)
+    #region Pause Stuff
+    protected override void OnPauseButtonPressed(bool v)
     {
         if (PauseMenuUI)
         {
@@ -25,4 +37,6 @@ public class PauseMenu : InputSubscriber
             PauseMenuUI.SetActive(true);
         }
     }
+    #endregion
+
 }
