@@ -1,25 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using static UnityEngine.SceneManagement.SceneManager;
 using UnityEngine.UI;
 
 public class PauseMenu : InputSubscriber
 {
-    [SerializeField]
-    private Button _playBtn;
+    [SerializeField] private Button resumeGUI;
+    [SerializeField] private Button optionsGUI;
+    [SerializeField] private Button mainMenuGUI;
+    [SerializeField] GameObject PauseMenuParent;
+    [SerializeField] GameObject OptionsMenuParent;
     protected override void Start()
     {
         base.Start();
-        if (_playBtn)
+        if (resumeGUI)
         {
-            _playBtn.onClick.AddListener(() => PauseMenuUIHandler());
+            resumeGUI.onClick.AddListener(() => PauseMenuUIHandler());
+            optionsGUI.onClick.AddListener(() => OptionsMenuUIHandler());
+            mainMenuGUI.onClick.AddListener(() => MainMenuMenuUIHandler());
         }
     }
-    [SerializeField] GameObject PauseMenuUI;
+
+    private void MainMenuMenuUIHandler()
+    {
+        LoadScene(1);
+    }
+
+    private void OptionsMenuUIHandler()
+    {
+        PauseMenuParent.SetActive(!isActiveAndEnabled);
+        OptionsMenuParent.SetActive(!isActiveAndEnabled);
+    }
     #region Pause Stuff
     protected override void OnPauseButtonPressed(bool v)
     {
-        if (PauseMenuUI)
+        if (PauseMenuParent)
         {
             PauseMenuUIHandler();
         }
@@ -29,12 +44,22 @@ public class PauseMenu : InputSubscriber
         if (Time.timeScale == 0)
         {
             Time.timeScale = 1;
-            PauseMenuUI.SetActive(false);
+            PauseMenuParent.SetActive(false);
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
         else
         {
             Time.timeScale = 0;
-            PauseMenuUI.SetActive(true);
+            PauseMenuParent.SetActive(true);
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
     }
     #endregion

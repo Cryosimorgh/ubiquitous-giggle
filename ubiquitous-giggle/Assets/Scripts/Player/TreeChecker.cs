@@ -24,13 +24,9 @@ public class TreeChecker : MonoBehaviour
         if (isTree.boolean && isHoldingATree.boolean && treeGameObject != null && !isSetChild)
         {
             treeGameObject.transform.position = pos.position;
-            treeGameObject.transform.SetAsLastSibling();
             isSetChild = true;
         }
-        if (!isHoldingATree.boolean && treeGameObject)
-        {
-            treeGameObject.transform.parent = null;
-        }
+
     }
     void OnTriggerExit(Collider other)
     {

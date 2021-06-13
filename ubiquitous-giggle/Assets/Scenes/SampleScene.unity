@@ -912,11 +912,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4857267202211361778, guid: 2fca7287a8475d54cbb891d0b09173db, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 519420031}
-    - target: {fileID: 4857267202211361778, guid: 2fca7287a8475d54cbb891d0b09173db, type: 3}
-      propertyPath: pos
+      propertyPath: camerasposition
       value: 
       objectReference: {fileID: 738615955}
     - target: {fileID: 4857267202211361782, guid: 2fca7287a8475d54cbb891d0b09173db, type: 3}
@@ -971,6 +967,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4857267202657870281, guid: 2fca7287a8475d54cbb891d0b09173db, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fca7287a8475d54cbb891d0b09173db, type: 3}
 --- !u!1001 &5890791519783699938
@@ -988,10 +988,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 560150247}
-    - target: {fileID: 2725662693846493861, guid: 48cfcbdd4745dc3409e21bd3a49149d4, type: 3}
-      propertyPath: m_XAxis.m_MaxSpeed
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 5890791519813827938, guid: 48cfcbdd4745dc3409e21bd3a49149d4, type: 3}
       propertyPath: m_RootOrder
       value: 0
