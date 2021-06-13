@@ -964,6 +964,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7552106578017587786, guid: 8c9227aaeb6374e48900cc416df681a4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7552106578017587787, guid: 8c9227aaeb6374e48900cc416df681a4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 7552106578017587788, guid: 8c9227aaeb6374e48900cc416df681a4, type: 3}
       propertyPath: m_RootOrder
       value: 3
