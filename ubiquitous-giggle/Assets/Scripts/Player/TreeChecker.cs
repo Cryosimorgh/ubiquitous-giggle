@@ -6,7 +6,6 @@ public class TreeChecker : MonoBehaviour
     [SerializeField] private BoolSO isHoldingATree;
     [SerializeField] private Transform pos;
     private GameObject treeGameObject;
-    private bool isSetChild;
     void Start()
     {
         treeGameObject = null;
@@ -21,10 +20,9 @@ public class TreeChecker : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (isTree.boolean && isHoldingATree.boolean && treeGameObject != null && !isSetChild)
+        if (isTree.boolean && isHoldingATree.boolean && treeGameObject != null)
         {
             treeGameObject.transform.position = pos.position;
-            isSetChild = true;
         }
 
     }
