@@ -48,14 +48,14 @@ MonoBehaviour:
   ChaseDetectionDist: 1000
   ChaseSpeed: 4
   AttackDist: 2
-  DropPercentChance: 17
+  DropPercentChance: 50
   MeleeAtkDamage: 5
   ArmListeners:
   - {fileID: 7120882478814452637}
   - {fileID: 7120882478814452608}
   _debugTarget: {fileID: 0}
   _animator: {fileID: 3726976404270179861}
-  PowerGenRadius: 0
+  _fuelPrefab: {fileID: 660366309900326968, guid: 2819db801bd251a41bd176c6e75b06ef, type: 3}
 --- !u!136 &2646945863988527418
 CapsuleCollider:
   m_ObjectHideFlags: 0

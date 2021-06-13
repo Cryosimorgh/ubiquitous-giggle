@@ -64,6 +64,9 @@ public class EnemyBase : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+    [SerializeField]
+    private GameObject _fuelPrefab;
+
     // Health of the enemy
     private float _health;
     // Target game object (actor) to perform at
@@ -80,7 +83,6 @@ public class EnemyBase : MonoBehaviour
 
     // Scene reference to main power generator player owns
     private PGLight _powerGenerator;
-    public float PowerGenRadius;
 
     public EnemyBase()
     {
@@ -312,6 +314,8 @@ public class EnemyBase : MonoBehaviour
         if (rnd <= DropPercentChance)
         {
             // Drop fuel/item on death
+            GameObject fuelGO = Instantiate(_fuelPrefab, this.transform.position, Quaternion.identity, null);
+            fuelGO.transform.eulerAngles = new Vector3(Random.Range(0, 360), 0, Random.Range(0, 360));
         }
 
         if (_animator)
