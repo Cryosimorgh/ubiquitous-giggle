@@ -12,11 +12,11 @@ public class PlayerStatsManager : MonoBehaviour
     public List<ArmColliderListener> ArmListeners;
 
     // Main source of audio for the player
-    private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSource;
     // Sound to play when player dies
-    private AudioClip _deathClip;
+    [SerializeField] private AudioClip _deathClip;
     // Sound to play when player is hurt, recieved damage
-    private AudioClip _hurtClip;
+    [SerializeField] private AudioClip _hurtClip;
 
     private void Start()
     {
